@@ -88,11 +88,11 @@ Files:
   - Sends the normalized URL to the native host with `chrome.runtime.sendNativeMessage`.
 - `src/youtube.js`
   - Exports a pure function for extracting a YouTube video id from supported URL forms.
-- `native/yt2duck-host`
+- `native-host/yt2duck_host.py`
   - Reads a Chrome Native Messaging JSON request from stdin.
   - Validates that the request contains a normalized YouTube watch URL.
   - Runs `open -a DuckDuckGo <youtube-url>`.
-- `native/com.yt2duck.host.json`
+- `native-host/com.yt2duck.host.json`
   - Native Messaging host manifest installed under Chrome's macOS native messaging host directory.
 - `test/youtube.test.js`
   - Verifies supported URL forms and invalid URL behavior.
