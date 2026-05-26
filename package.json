@@ -1,0 +1,16 @@
+{
+  "name": "yt2duck",
+  "version": "0.1.0",
+  "description": "Open YouTube videos in Duck Player from the context menu.",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "chrome-extension",
+    "youtube",
+    "duck-player"
+  ],
+  "license": "MIT"
+}
