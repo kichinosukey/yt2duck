@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "yt2duck",
+  "version": "0.1.0",
+  "description": "Open YouTube videos in Duck Player from the context menu.",
+  "permissions": [
+    "contextMenus",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://youtube.com/*",
+    "https://m.youtube.com/*",
+    "https://youtu.be/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  }
+}
