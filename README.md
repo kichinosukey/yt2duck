@@ -8,10 +8,18 @@ It adds a `Duck Playerで再生` context menu item on YouTube. When selected, th
 duck://player/<videoId>
 ```
 
-For example:
+The `duck://player/...` protocol must already be handled by an installed and registered Duck Player or DuckDuckGo protocol handler. The extension only opens that protocol URL; it does not install or register the handler.
+
+Examples:
 
 ```text
 https://www.youtube.com/watch?v=Zdzhh_drDhI
+duck://player/Zdzhh_drDhI
+
+https://www.youtube.com/shorts/Zdzhh_drDhI
+duck://player/Zdzhh_drDhI
+
+https://youtu.be/Zdzhh_drDhI
 duck://player/Zdzhh_drDhI
 ```
 
