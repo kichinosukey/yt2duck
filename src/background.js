@@ -45,7 +45,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
       }
 
       if (!response?.ok) {
-        console.error('yt2duck: native host failed', response);
+        console.error('yt2duck: native host rejected request', response);
       }
     },
   );
