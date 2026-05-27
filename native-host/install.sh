@@ -33,14 +33,21 @@ if [ ! -x "$host_path" ]; then
   chmod +x "$host_path"
 fi
 
-escaped_host_path="${host_path//\\/\\\\}"
-escaped_host_path="${escaped_host_path//\"/\\\"}"
-escaped_host_path="${escaped_host_path//&/\\&}"
-escaped_host_path="${escaped_host_path//|/\\|}"
+python3 - "$template_path" "$manifest_path" "$host_path" "$extension_id" <<'PY'
+import json
+import sys
 
-sed \
-  -e "s|__YT2DUCK_HOST_PATH__|${escaped_host_path}|g" \
-  -e "s|__CHROME_EXTENSION_ID__|${extension_id}|g" \
-  "$template_path" > "$manifest_path"
+template_path, manifest_path, host_path, extension_id = sys.argv[1:]
+
+with open(template_path, "r", encoding="utf-8") as template_file:
+    manifest = json.load(template_file)
+
+manifest["path"] = host_path
+manifest["allowed_origins"] = [f"chrome-extension://{extension_id}/"]
+
+with open(manifest_path, "w", encoding="utf-8") as manifest_file:
+    json.dump(manifest, manifest_file, indent=2)
+    manifest_file.write("\n")
+PY
 
 echo "Installed manifest: $manifest_path"
