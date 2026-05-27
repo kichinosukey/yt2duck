@@ -4,23 +4,31 @@ yt2duck is a macOS-only Chrome extension plus Native Messaging host.
 
 It opens YouTube videos from Chrome in DuckDuckGo Browser so DuckDuckGo's built-in Duck Player can handle playback.
 
+## Prerequisites
+
+- macOS
+- Google Chrome
+- DuckDuckGo Browser for macOS
+- Python 3
+- Duck Player enabled in DuckDuckGo Browser settings
+
 It does not open `duck://player/...` directly because DuckDuckGo Browser does not register `duck://` as external macOS URL scheme. Instead, yt2duck opens a normal YouTube watch URL:
 
 ```text
 https://www.youtube.com/watch?v=<videoId>
 ```
 
-Supported URLs are normalized before being sent to the native host:
+Input URLs are normalized before being sent to DuckDuckGo Browser:
 
 ```text
-https://www.youtube.com/watch?v=Zdzhh_drDhI
-https://www.youtube.com/watch?v=Zdzhh_drDhI
+Input:      https://www.youtube.com/watch?v=Zdzhh_drDhI
+Normalized: https://www.youtube.com/watch?v=Zdzhh_drDhI
 
-https://www.youtube.com/shorts/Zdzhh_drDhI
-https://www.youtube.com/watch?v=Zdzhh_drDhI
+Input:      https://www.youtube.com/shorts/Zdzhh_drDhI
+Normalized: https://www.youtube.com/watch?v=Zdzhh_drDhI
 
-https://youtu.be/Zdzhh_drDhI
-https://www.youtube.com/watch?v=Zdzhh_drDhI
+Input:      https://youtu.be/Zdzhh_drDhI
+Normalized: https://www.youtube.com/watch?v=Zdzhh_drDhI
 ```
 
 ## Supported URLs
@@ -31,7 +39,7 @@ https://www.youtube.com/watch?v=Zdzhh_drDhI
 
 ## Install on macOS
 
-1. Open `chrome://extensions` in Chrome.
+1. Open `chrome://extensions` in Google Chrome.
 2. Enable Developer mode.
 3. Click Load unpacked.
 4. Select this repository directory.
@@ -42,7 +50,13 @@ https://www.youtube.com/watch?v=Zdzhh_drDhI
 ./native-host/install.sh <chrome-extension-id>
 ```
 
-DuckDuckGo Browser for macOS must already be installed, and Duck Player must be enabled in DuckDuckGo settings.
+The installer writes the Native Messaging manifest for Google Chrome only:
+
+```text
+~/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.yt2duck.host.json
+```
+
+It does not install native host manifests for Chromium, Edge, Brave, Firefox, or other browsers.
 
 ## Usage
 
@@ -51,6 +65,34 @@ DuckDuckGo Browser for macOS must already be installed, and Duck Player must be 
 3. Click `Duck Playerで再生`.
 4. DuckDuckGo Browser opens the video URL.
 5. DuckDuckGo's Duck Player setting handles playback.
+
+## Troubleshooting
+
+Check that the native host manifest exists at:
+
+```text
+~/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.yt2duck.host.json
+```
+
+If the Chrome extension ID changes, or you reload the extension from a different path, rerun:
+
+```bash
+./native-host/install.sh <chrome-extension-id>
+```
+
+Run the native host self-test:
+
+```bash
+native-host/yt2duck_host.py --self-test
+```
+
+Verify DuckDuckGo Browser can open a YouTube URL:
+
+```bash
+open -a DuckDuckGo 'https://www.youtube.com/watch?v=Zdzhh_drDhI'
+```
+
+If the extension notification says the native host failed, check that the Chrome extension ID matches the ID passed to `./native-host/install.sh`.
 
 ## Development
 
