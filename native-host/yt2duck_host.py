@@ -7,6 +7,7 @@ from urllib.parse import parse_qs, urlparse
 
 
 ALLOWED_HOSTS = {"www.youtube.com", "youtube.com", "m.youtube.com"}
+MAX_MESSAGE_SIZE = 1024 * 1024
 
 
 def is_supported_youtube_watch_url(value):
@@ -58,6 +59,9 @@ def read_message(stdin_buffer):
         raise ValueError("invalid message length header")
 
     message_length = struct.unpack("@I", raw_length)[0]
+    if message_length == 0 or message_length > MAX_MESSAGE_SIZE:
+        raise ValueError("invalid message size")
+
     raw_message = stdin_buffer.read(message_length)
     if len(raw_message) != message_length:
         raise ValueError("invalid message body")
