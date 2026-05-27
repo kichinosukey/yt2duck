@@ -5,6 +5,7 @@
   "description": "Open YouTube videos in Duck Player from the context menu.",
   "permissions": [
     "contextMenus",
+    "nativeMessaging",
     "tabs"
   ],
   "host_permissions": [

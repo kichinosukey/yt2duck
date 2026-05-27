@@ -1,5 +1,6 @@
-import { extractYouTubeVideoId } from './youtube.js';
+import { toYouTubeWatchUrl } from './youtube.js';
 
+const HOST_NAME = 'com.yt2duck.host';
 const MENU_ID = 'open-in-duck-player';
 const YOUTUBE_DOCUMENT_PATTERNS = [
   'https://www.youtube.com/*',
@@ -27,12 +28,25 @@ chrome.contextMenus.onClicked.addListener((info) => {
   }
 
   const sourceUrl = info.linkUrl || info.pageUrl;
-  const videoId = extractYouTubeVideoId(sourceUrl);
+  const youtubeUrl = toYouTubeWatchUrl(sourceUrl);
 
-  if (!videoId) {
+  if (!youtubeUrl) {
     console.warn('yt2duck: unsupported YouTube URL', sourceUrl);
     return;
   }
 
-  chrome.tabs.create({ url: `duck://player/${videoId}` });
+  chrome.runtime.sendNativeMessage(
+    HOST_NAME,
+    { action: 'open', url: youtubeUrl },
+    (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('yt2duck: native host error', chrome.runtime.lastError.message);
+        return;
+      }
+
+      if (!response?.ok) {
+        console.error('yt2duck: native host failed', response);
+      }
+    },
+  );
 });
