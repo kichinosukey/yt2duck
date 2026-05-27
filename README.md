@@ -21,14 +21,14 @@ https://www.youtube.com/watch?v=<videoId>
 Input URLs are normalized before being sent to DuckDuckGo Browser:
 
 ```text
-Input:      https://www.youtube.com/watch?v=Zdzhh_drDhI
-Normalized: https://www.youtube.com/watch?v=Zdzhh_drDhI
+Input:      https://www.youtube.com/watch?v=UF8uR6Z6KLc
+Normalized: https://www.youtube.com/watch?v=UF8uR6Z6KLc
 
-Input:      https://www.youtube.com/shorts/Zdzhh_drDhI
-Normalized: https://www.youtube.com/watch?v=Zdzhh_drDhI
+Input:      https://www.youtube.com/shorts/UF8uR6Z6KLc
+Normalized: https://www.youtube.com/watch?v=UF8uR6Z6KLc
 
-Input:      https://youtu.be/Zdzhh_drDhI
-Normalized: https://www.youtube.com/watch?v=Zdzhh_drDhI
+Input:      https://youtu.be/UF8uR6Z6KLc
+Normalized: https://www.youtube.com/watch?v=UF8uR6Z6KLc
 ```
 
 ## Supported URLs
@@ -89,7 +89,7 @@ native-host/yt2duck_host.py --self-test
 Verify DuckDuckGo Browser can open a YouTube URL:
 
 ```bash
-open -a DuckDuckGo 'https://www.youtube.com/watch?v=Zdzhh_drDhI'
+open -a DuckDuckGo 'https://www.youtube.com/watch?v=UF8uR6Z6KLc'
 ```
 
 If the extension notification says the native host failed, check that the Chrome extension ID matches the ID passed to `./native-host/install.sh`.
