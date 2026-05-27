@@ -6,7 +6,7 @@
   "permissions": [
     "contextMenus",
     "nativeMessaging",
-    "tabs"
+    "notifications"
   ],
   "host_permissions": [
     "https://www.youtube.com/*",

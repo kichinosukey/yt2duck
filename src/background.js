@@ -2,6 +2,8 @@ import { toYouTubeWatchUrl } from './youtube.js';
 
 const HOST_NAME = 'com.yt2duck.host';
 const MENU_ID = 'open-in-duck-player';
+const FAILURE_NOTIFICATION_MESSAGE =
+  'DuckDuckGoを開けませんでした。native host のインストールを確認してください。';
 const YOUTUBE_DOCUMENT_PATTERNS = [
   'https://www.youtube.com/*',
   'https://youtube.com/*',
@@ -11,6 +13,15 @@ const YOUTUBE_TARGET_PATTERNS = [
   ...YOUTUBE_DOCUMENT_PATTERNS,
   'https://youtu.be/*',
 ];
+
+function notifyFailure(message = FAILURE_NOTIFICATION_MESSAGE) {
+  chrome.notifications.create({
+    type: 'basic',
+    iconUrl: chrome.runtime.getURL('icons/icon48.png'),
+    title: 'yt2duck',
+    message,
+  });
+}
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
@@ -41,11 +52,13 @@ chrome.contextMenus.onClicked.addListener((info) => {
     (response) => {
       if (chrome.runtime.lastError) {
         console.error('yt2duck: native host error', chrome.runtime.lastError.message);
+        notifyFailure();
         return;
       }
 
       if (!response?.ok) {
         console.error('yt2duck: native host rejected request', response);
+        notifyFailure();
       }
     },
   );
