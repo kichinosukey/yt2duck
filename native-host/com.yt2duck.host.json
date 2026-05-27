@@ -1,0 +1,9 @@
+{
+  "name": "com.yt2duck.host",
+  "description": "yt2duck Native Messaging Host",
+  "path": "__YT2DUCK_HOST_PATH__",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://__CHROME_EXTENSION_ID__/"
+  ]
+}
