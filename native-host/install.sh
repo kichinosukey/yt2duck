@@ -29,7 +29,9 @@ if [[ ! -f "$template_path" ]]; then
 fi
 
 mkdir -p "$install_dir"
-chmod +x "$host_path"
+if [ ! -x "$host_path" ]; then
+  chmod +x "$host_path"
+fi
 
 escaped_host_path="${host_path//\\/\\\\}"
 escaped_host_path="${escaped_host_path//\"/\\\"}"
