@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import { describe, it, test } from 'node:test';
 
-import { extractYouTubeVideoId } from '../src/youtube.js';
+import { extractYouTubeVideoId, toYouTubeWatchUrl } from '../src/youtube.js';
 
 test('extracts video id from supported youtube watch URLs', () => {
   assert.equal(
@@ -55,4 +55,32 @@ test('returns null for unsupported or incomplete values', () => {
   for (const value of unsupportedValues) {
     assert.equal(extractYouTubeVideoId(value), null);
   }
+});
+
+describe('toYouTubeWatchUrl', () => {
+  it('normalizes supported URLs to canonical youtube watch URLs', () => {
+    assert.equal(
+      toYouTubeWatchUrl('https://www.youtube.com/watch?v=Zdzhh_drDhI'),
+      'https://www.youtube.com/watch?v=Zdzhh_drDhI',
+    );
+    assert.equal(
+      toYouTubeWatchUrl('https://youtube.com/watch?v=Zdzhh_drDhI&t=10s'),
+      'https://www.youtube.com/watch?v=Zdzhh_drDhI',
+    );
+    assert.equal(
+      toYouTubeWatchUrl('https://m.youtube.com/shorts/Zdzhh_drDhI'),
+      'https://www.youtube.com/watch?v=Zdzhh_drDhI',
+    );
+    assert.equal(
+      toYouTubeWatchUrl('https://youtu.be/Zdzhh_drDhI?t=10'),
+      'https://www.youtube.com/watch?v=Zdzhh_drDhI',
+    );
+  });
+
+  it('returns null when a URL cannot be normalized', () => {
+    assert.equal(toYouTubeWatchUrl('https://example.com/watch?v=Zdzhh_drDhI'), null);
+    assert.equal(toYouTubeWatchUrl('https://www.youtube.com/feed/subscriptions'), null);
+    assert.equal(toYouTubeWatchUrl(''), null);
+    assert.equal(toYouTubeWatchUrl(null), null);
+  });
 });

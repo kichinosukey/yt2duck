@@ -36,6 +36,17 @@ export function extractYouTubeVideoId(value) {
   return null;
 }
 
+export function toYouTubeWatchUrl(value) {
+  const videoId = extractYouTubeVideoId(value);
+  if (!videoId) {
+    return null;
+  }
+
+  const url = new URL('https://www.youtube.com/watch');
+  url.searchParams.set('v', videoId);
+  return url.href;
+}
+
 function firstPathSegment(url) {
   return nonEmptyValue(url.pathname.split('/').find(Boolean));
 }
