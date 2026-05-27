@@ -77,6 +77,13 @@ def write_message(stdout_buffer, message):
 
 
 def main():
+    if "--test-message" in sys.argv:
+        index = sys.argv.index("--test-message")
+        message = json.loads(sys.argv[index + 1])
+        result = handle_message(message, opener=lambda url: None)
+        print(json.dumps(result, sort_keys=True))
+        return 0
+
     if "--self-test" in sys.argv:
         result = handle_message(
             {"action": "open", "url": "https://www.youtube.com/watch?v=Zdzhh_drDhI"},
